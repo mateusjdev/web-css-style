@@ -64,7 +64,7 @@ if (settings.secondary.hide) {
 if (settings.secondary.enable_toggle) {
     (function() {
         GM_registerMenuCommand('Toggle Secondary', function() {
-            var element = document.querySelector("#co1lumns #secondary")
+            var element = document.querySelector("#columns #secondary")
             console.log(element.style.display)
             if (settings.secondary.hide) {
                 if (element.style.display === '' || element.style.display === 'none') {
