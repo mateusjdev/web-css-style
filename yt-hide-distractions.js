@@ -19,14 +19,18 @@ const settings = {
     hide_homepage: true,
     hide_subscriptions: false,
     hide_related: true,
-    hide_chat: true,
+    hide_chat: false,
     secondary: {
         hide: false,
-        enable_toggle: true
+        enable_toggle: true,
+        // live stream chat sometimes block primary panel to expand
+        // when secondary is hidden, this setting ignores hide_chat
+        // and disables it anyway
+        force_hide_chat: true
     }
 };
 
-(function() {
+(function () {
 
     if (settings.hide_homepage) {
         const hp_style = document.createElement("style");
@@ -54,16 +58,34 @@ const settings = {
 })();
 
 if (settings.secondary.hide) {
-    (function() {
+    (function () {
         const style = document.createElement("style");
         style.textContent = `#secondary { display: none; }`;
         document.documentElement.appendChild(style);
     })();
 }
 
+function hide_live_chat() {
+    document.getElementById("chatframe").contentWindow.document.querySelector("#chat-messages #close-button > yt-button-renderer > yt-button-shape > button").click();
+    clearInterval(myVar);
+}
+
 if (settings.secondary.enable_toggle) {
-    (function() {
-        GM_registerMenuCommand('Toggle Secondary', function() {
+    (function () {
+
+        GM_registerMenuCommand('Disable Live Chat', function () {
+            hide_live_chat();
+        });
+
+        // TODO: if clientHeight = 0 already hidden
+        // document.getElementById("chatframe").clientHeight
+        if (settings.secondary.force_hide_chat) {
+            window.addEventListener("yt-navigate-finish", function () {
+                let myVar = setInterval(hide_live_chat, 5000);
+            }, true);
+        }
+
+        GM_registerMenuCommand('Toggle Secondary', function () {
             var element = document.querySelector("#columns #secondary")
             console.log(element.style.display)
             if (settings.secondary.hide) {
@@ -84,8 +106,8 @@ if (settings.secondary.enable_toggle) {
 }
 
 // Toggle Tittle
-(function() {
-    GM_registerMenuCommand('Toggle Tittle', function() {
+(function () {
+    GM_registerMenuCommand('Toggle Tittle', function () {
         var element = document.querySelector("#above-the-fold #title")
         if (element.style.display) {
             element.style.display = "block";
