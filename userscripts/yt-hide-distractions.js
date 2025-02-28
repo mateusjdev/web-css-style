@@ -16,10 +16,10 @@
 "use strict";
 
 const settings = {
-    hide_homepage: true,
-    hide_subscriptions: true,
-    hide_related: true,
-    hide_chat: false,
+    hide_homepage: false, // Stylebot
+    hide_subscriptions: false, // Stylebot
+    hide_related: false, // Stylebot
+    hide_chat: true,
     secondary: {
         hide: false,
         enable_toggle: true,

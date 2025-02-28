@@ -1,0 +1,17 @@
+/* hide related videos in player page
+*/
+#related {
+  display: none;
+}
+
+/* Hide recommended videos in homepage
+*/
+[page-subtype="home"] {
+  display: none;
+}
+
+/* Hide recommended videos in subscriptions page
+*/
+[page-subtype="subscriptions"] {
+  display: none;
+}
